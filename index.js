@@ -4,10 +4,12 @@
  */
 
 const debug = require('debug')('resources')
+const fetch = require('node-fetch')
 
 module.exports = function (app) {
   const error = app.error || (msg => {console.error(msg)})
-  const apiRoutePrefix = '/signalk/v1/api/resources'
+  const apiRoutePrefix = '/signalk/v1/api'
+  const keys = ['charts','notes','regions','routes','waypoints']
   let pluginStarted = false
 
   var plugin = {}
@@ -23,9 +25,9 @@ module.exports = function (app) {
   }
 
   plugin.id = 'resources'
-  plugin.name = 'Signal K Notes'
+  plugin.name = 'Signal K Resources'
   plugin.description =
-    "Plugin that provides a source of note resources"
+    "Plugin that provides a source of resources"
 
   plugin.schema = {
     type: 'object',
@@ -36,7 +38,34 @@ module.exports = function (app) {
   function registerRoutes() {
 
     app.get(apiRoutePrefix + "/resources", (req, res) => {
-      res.json({})
+      let base = req.protocol+"://"+req.headers.host
+      console.log(req.protocol)
+      let promises = [];
+      for(var i=0; i<keys.length; i++) {
+        const key = keys[i]
+        promises.push(new Promise(function(resolve, reject) {
+          const url = base+apiRoutePrefix + "/resources/" + key
+          fetch(url)
+          .then(res => res.json())
+          .then(json => {
+            resolve({key:key,val:json})
+          })
+          .catch(err => {
+            resolve(null)
+          })
+          })
+        )
+      }
+      Promise.all(promises).then(o =>{
+        var r = {}
+        for(var i = 0; i<o.length; i++) {
+          if(o[i] != null) {
+            var p = o[i]
+            r[p.key] = p.val  
+          }
+        }
+        res.json(r)
+      })
     })
   }
 

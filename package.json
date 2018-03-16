@@ -1,7 +1,7 @@
 {
   "name": "resources-plugin",
   "version": "1.0.0",
-  "description": "signalk plugin to respond to the resources/resources REST API.",
+  "description": "signalk plugin to respond to the resources REST API.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/jcable/resources-plugin/issues"
   },
-  "homepage": "https://github.com/jcable/resources-plugin#readme"
+  "homepage": "https://github.com/jcable/resources-plugin#readme",
+  "dependencies": {
+    "node-fetch": "^2.1.1"
+  }
 }
