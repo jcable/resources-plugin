@@ -39,7 +39,6 @@ module.exports = function (app) {
 
     app.get(apiRoutePrefix + "/resources", (req, res) => {
       let base = req.protocol+"://"+req.headers.host
-      console.log(req.protocol)
       let promises = [];
       for(var i=0; i<keys.length; i++) {
         const key = keys[i]
