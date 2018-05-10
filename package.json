@@ -1,5 +1,5 @@
 {
-  "name": "resources-plugin",
+  "name": "@signalk/resources-plugin",
   "version": "1.0.0",
   "description": "signalk plugin to respond to the resources REST API.",
   "main": "index.js",
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/jcable/resources-plugin#readme",
   "dependencies": {
+    "debug": "^3.1.0",
     "node-fetch": "^2.1.1"
   }
 }
